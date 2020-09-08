@@ -18,6 +18,11 @@ const table = new Table({
     ]
 });
 
+
+Handlebars.registerHelper('inc', function (value, options) {
+  return parseInt(value, 10) + 1;
+});
+
 Handlebars.registerHelper('noBackSlash', function(options) {
   var string = options.fn(this);
   return string.replace(/\\/g, '/');

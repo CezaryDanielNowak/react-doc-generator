@@ -18,7 +18,7 @@
 Property | Type | Required | Default value | Description
 :--- | :--- | :--- | :--- | :---
 {{#each props}}
-{{@key}} | {{type.name}} | {{#if required}}yes{{else}}no{{/if}} | {{defaultValue.value}} | {{#if description}}{{#nl2br}}{{description}}{{/nl2br}}{{else}}&nbsp;{{/if}}
+{{@key}} | {{type.name}}{{#if type.value}}({{#each type.value}}{{value}},{{/each}}){{/if}} | {{#if required}}YES{{else}}no{{/if}} | {{defaultValue.value}} | {{#if description}}{{#nl2br}}{{description}}{{/nl2br}}{{else}}&nbsp;{{/if}}
 {{/each}}
 {{/if}}
 {{/each}}
