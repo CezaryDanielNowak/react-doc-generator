@@ -1,6 +1,6 @@
 {
   "name": "react-doc-generator-fork",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "description": "Generate a simple React Component documentation in Markdown.",
   "main": "dist/index.js",
   "bin": {
@@ -16,13 +16,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/marborkowski/react-doc-generator.git"
+    "url": "git+https://github.com/CezaryDanielNowak/react-doc-generator"
   },
   "author": "Marcin Borkowski",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/marborkowski/react-doc-generator/issues"
-  },
   "homepage": "https://github.com/marborkowski/react-doc-generator#readme",
   "keywords": [
     "react",

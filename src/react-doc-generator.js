@@ -18,8 +18,14 @@ const table = new Table({
     ]
 });
 
-Handlebars.registerHelper('inc', (value, options) => {
-    return parseInt(value, 10) + 1;
+Handlebars.registerHelper('noBackSlash', function(options) {
+  var string = options.fn(this);
+  return string.replace(/\\/g, '/');
+});
+
+Handlebars.registerHelper('nl2br', function(options) {
+  var nl2br = (options.fn(this) + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '<br />');
+  return new Handlebars.SafeString(nl2br);
 });
 
 console.log(Colors.white(`\n\nREACT DOC GENERATOR v${pkg.version}`));
