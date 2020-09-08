@@ -7,7 +7,8 @@ Generate simple React components documentation in [Markdown](https://github.com/
 
 ## Installation
 
-`$ npm install -save-dev react-doc-generator`
+`$ npm install -save-dev react-doc-generator-fork`
+NOTE: As for 2020-09-08 `react-doc-generator` npm package is not maintained. Last release was made 4 years ago.
 
 ## Usage
 
