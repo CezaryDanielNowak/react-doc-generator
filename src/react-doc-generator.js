@@ -95,15 +95,14 @@ if (Command.args.length !== 1) {
                                 if (obj.type.name === 'func' && ['()=>{}', 'function(){}'].includes(obj.defaultValue.value.replace(/\s/g,'')) ) {
                                     obj.defaultValue.value = 'empty function';
                                 } else if (isInvalidValue && !isString) {
-                                    obj.defaultValue.value = 'Complex structure. Read Description';
                                     const valueLen = `${obj.defaultValue.value}`.length;
-
-                                    if (valueLen <= 40) {
-                                        obj.defaultValue.value = `${JSON.stringify(obj.defaultValue.value)}`;
-                                    }
 
                                     if (valueLen === 0 && obj.type.name === 'node') {
                                         obj.defaultValue.value = 'empty node'
+                                    } else if (valueLen <= 40) {
+                                        obj.defaultValue.value = `${JSON.stringify(obj.defaultValue.value)}`;
+                                    } else {
+                                        obj.defaultValue.value = 'Complex structure. Read Description';
                                     }
                                 }
                             }

@@ -1,6 +1,6 @@
 {
   "name": "react-doc-generator-fork",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Generate a simple React Component documentation in Markdown.",
   "main": "dist/index.js",
   "bin": {
