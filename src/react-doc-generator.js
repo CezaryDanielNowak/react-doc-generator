@@ -87,11 +87,24 @@ if (Command.args.length !== 1) {
                         Object.keys(component.props).forEach(key => {
                             let obj = component.props[key];
                             if (obj.defaultValue) {
-                                const isString = obj.type.name === 'string'
+                                const isString = ['string', 'enum'].includes(obj.type.name)
                                     && typeof obj.defaultValue.value === 'string';
                                 const isInvalidValue = (/[^\w\s.&:\-+*,!@%$]+/igm).test(obj.defaultValue.value);
-                                if (isInvalidValue && !isString) {
-                                    obj.defaultValue.value = '<See the source code>';
+                                
+
+                                if (obj.type.name === 'func' && ['()=>{}', 'function(){}'].includes(obj.defaultValue.value.replace(/\s/g,'')) ) {
+                                    obj.defaultValue.value = 'empty function';
+                                } else if (isInvalidValue && !isString) {
+                                    obj.defaultValue.value = 'Complex structure. Read Description';
+                                    const valueLen = `${obj.defaultValue.value}`.length;
+
+                                    if (valueLen <= 40) {
+                                        obj.defaultValue.value = `${JSON.stringify(obj.defaultValue.value)}`;
+                                    }
+
+                                    if (valueLen === 0 && obj.type.name === 'node') {
+                                        obj.defaultValue.value = 'empty node'
+                                    }
                                 }
                             }
                             if (obj.description) {
