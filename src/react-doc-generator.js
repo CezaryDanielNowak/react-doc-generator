@@ -29,7 +29,10 @@ Handlebars.registerHelper('noBackSlash', function(options) {
 });
 
 Handlebars.registerHelper('nl2br', function(options) {
-  var nl2br = (options.fn(this) + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '<br />');
+  var nl2br = (options.fn(this) + '')
+    .replace(/\r/g, '') // remove windows-style newlines
+    .replace(/\n/g, '<br />'); // keep just unix-style newlines
+
   return new Handlebars.SafeString(nl2br);
 });
 
@@ -68,18 +71,12 @@ if (Command.args.length !== 1) {
                 components = components.map(component => {
                     if (component.description && !component.displayName) {
                         component.title = component.description.match(/^(.*)$/m)[0];
-                        if (component.description.split('\n').length > 1) {
-                            component.description = component.description.replace(/[\w\W]+?\n+?/, '');
-                            component.description = component.description.replace(/(\n)/gm, '   \n');
-                        } else {
-                            component.description = null;
-                        }
                     } else {
                         component.title = component.displayName;
                     }
 
                     if (component.description) {
-                        component.description = `${component.description}   \n\n`;
+                        component.description = `${component.description}\n\n`;
                     }
 
                     // validate default values
@@ -107,12 +104,7 @@ if (Command.args.length !== 1) {
                                 }
                             }
                             if (obj.description) {
-                              const processedDescription = obj.description
-                              .split('\n')
-                              .map(text => text.replace(/(^\s+|\s+$)/, ''))
-                              .map(hasValidValue => hasValidValue)
-                              .join(' ');
-                              obj.description = processedDescription;
+                              obj.description = obj.description.replace(/(^\s+|\s+$)/, '');
                             }
                         });
                     }

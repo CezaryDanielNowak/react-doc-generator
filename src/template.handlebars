@@ -9,7 +9,7 @@
 
 
 {{#each components}}
-### {{inc @index}}. {{title}}
+{{#if components.length > 1}}### {{inc @index}}. {{/if}}{{title}}
 
 {{{description}}}
 
