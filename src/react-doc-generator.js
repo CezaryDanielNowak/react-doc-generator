@@ -18,22 +18,40 @@ const table = new Table({
     ]
 });
 
+Handlebars.registerHelper('eq', function(a, b) {
+    return a === b;
+});
+Handlebars.registerHelper('gt', function(a, b) {
+    return a > b;
+});
+Handlebars.registerHelper('gte', function(a, b) {
+    return a >= b;
+});
+Handlebars.registerHelper('lt', function(a, b) {
+    return a < b;
+});
+Handlebars.registerHelper('lte', function(a, b) {
+    return a <= b;
+});
+Handlebars.registerHelper('ne', function(a, b) {
+    return a !== b;
+});
 
 Handlebars.registerHelper('inc', function (value, options) {
   return parseInt(value, 10) + 1;
 });
 
 Handlebars.registerHelper('noBackSlash', function(options) {
-  var string = options.fn(this);
-  return string.replace(/\\/g, '/');
+    var string = options.fn(this);
+    return string.replace(/\\/g, '/');
 });
 
 Handlebars.registerHelper('nl2br', function(options) {
-  var nl2br = (options.fn(this) + '')
-    .replace(/\r/g, '') // remove windows-style newlines
-    .replace(/\n/g, '<br />'); // keep just unix-style newlines
-
-  return new Handlebars.SafeString(nl2br);
+    var nl2br = (options.fn(this) + '')
+        .replace(/\r/g, '') // remove windows-style newlines
+        .replace(/\n/g, '<br />'); // keep just unix-style newlines
+    
+    return new Handlebars.SafeString(nl2br);
 });
 
 console.log(Colors.white(`\n\nREACT DOC GENERATOR v${pkg.version}`));
@@ -87,9 +105,8 @@ if (Command.args.length !== 1) {
                                 const isString = ['string', 'enum'].includes(obj.type.name)
                                     && typeof obj.defaultValue.value === 'string';
                                 const isInvalidValue = (/[^\w\s.&:\-+*,!@%$]+/igm).test(obj.defaultValue.value);
-                                
 
-                                if (obj.type.name === 'func' && ['()=>{}', 'function(){}'].includes(obj.defaultValue.value.replace(/\s/g,'')) ) {
+                                if (obj.type.name === 'func' && ['()=>{}', 'function(){}', 'noop'].includes(obj.defaultValue.value.replace(/\s/g,'')) ) {
                                     obj.defaultValue.value = 'empty function';
                                 } else if (isInvalidValue && !isString) {
                                     const valueLen = `${obj.defaultValue.value}`.length;
