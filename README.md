@@ -3,10 +3,18 @@
 
 Generate simple React components documentation in [Markdown](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet).
 
+## Differences between this and original repo
+- Multiline comments in the prop description is not broken
+- More `defaultProps` types supported (functions, nodes)
+- `oneOf` propType supported 
+- documentation generated on Windows use unix-style paths
+- React and Babel updated
+- latest `react-docgen` used
+
 ## Installation
 
 `$ npm install --save-dev react-doc-generator-fork`
-NOTE: As for 2020-09-08 `react-doc-generator` npm package is not maintained. Last release was made 4 years ago.
+NOTE: As for 2021-09-08 `react-doc-generator` npm package is not maintained. Last release was made 5 years ago.
 
 ## Usage
 
