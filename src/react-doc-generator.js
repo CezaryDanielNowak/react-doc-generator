@@ -58,12 +58,10 @@ console.log(Colors.white(`\n\nREACT DOC GENERATOR v${pkg.version}`));
 console.log(Colors.white(`by Marcin Borkowski <marborkowski@gmail.com>`));
 
 
-
-const output = fs.createWriteStream(Command.output);
 const templateData = {
     files: [],
     version: pkg.version,
-    documentTitle: Command.title
+    documentTitle: Command.opts().title
 };
 
 const template = Handlebars.compile(`${fs.readFileSync(path.join(__dirname, 'template.handlebars'))}`);
@@ -75,9 +73,9 @@ if (Command.args.length !== 1) {
     readFiles(
         Command.args[0],
         {
-            match: new RegExp('\\.(?:' + Command.extensions.join('|') + ')$'),
-            exclude: Command.excludePatterns,
-            excludeDir: Command.ignore,
+            match: new RegExp('\\.(?:' + Command.opts().extensions.join('|') + ')$'),
+            exclude: Command.opts().excludePatterns,
+            excludeDir: Command.opts().ignore,
         },
         (err, content, filename, next) => {
             if (err) {
@@ -150,7 +148,7 @@ if (Command.args.length !== 1) {
             }
 
             if (templateData.files.length === 0) {
-                let extensions = Command.extensions.map(ext => {
+                let extensions = Command.opts().extensions.map(ext => {
                     return `\`*.${ext}\``;
                 });
                 console.log(`${Colors.bold.yellow('Warning:')} ${Colors.yellow(`Could not find any files matching the file type: ${extensions.join(' OR ')}`)}\n`);
@@ -158,7 +156,11 @@ if (Command.args.length !== 1) {
                 console.log(`${table.toString()}\n\n`);
             }
 
-            output.write(template(templateData));
+            fs.writeFile(Command.opts().output, template(templateData), (_err) => {
+              if (_err) {
+                console.log('Error Writing File', Command.opts().output);
+              }
+            });
         }
     );
 }
