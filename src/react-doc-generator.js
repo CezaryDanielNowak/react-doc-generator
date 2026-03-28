@@ -6,15 +6,14 @@ import path from 'path';
 import Command from './lib/command.js';
 import { readFiles } from 'node-dir';
 import Handlebars from 'handlebars';
-import Colors from 'colors';
 import Table from 'cli-table';
 
-const pkg = require('../package.json');
+import pkg from '../package.json' with { type: 'json' };
 const table = new Table({
     head: [
-        Colors.cyan('Path'),
-        Colors.cyan('Components'),
-        Colors.cyan('Status')
+        'Path',
+        'Components',
+        'Status'
     ]
 });
 
@@ -54,8 +53,8 @@ Handlebars.registerHelper('nl2br', function(options) {
     return new Handlebars.SafeString(nl2br);
 });
 
-console.log(Colors.white(`\n\nREACT DOC GENERATOR v${pkg.version}`));
-console.log(Colors.white(`by Marcin Borkowski <marborkowski@gmail.com>`));
+console.log(`\n\nREACT DOC GENERATOR v${pkg.version}`);
+console.log(`by Marcin Borkowski <marborkowski@gmail.com>`);
 
 
 const templateData = {
@@ -67,7 +66,7 @@ const templateData = {
 const template = Handlebars.compile(`${fs.readFileSync(path.join(__dirname, 'template.handlebars'))}`);
 
 if (Command.args.length !== 1) {
-    console.log(`${Colors.red('Please specify <dir> as the first argument!')}`);
+    console.log('Please specify <dir> as the first argument!');
     Command.help();
 } else {
     readFiles(
@@ -130,13 +129,13 @@ if (Command.args.length !== 1) {
                 table.push([
                     filename,
                     components.length,
-                    Colors.green(`OK.`)
+                    `OK.`
                 ]);
             } catch (e) {
                 table.push([
                     filename,
                     0,
-                    Colors.red(`You have to export at least one valid React Class!`)
+                    `You have to export at least one valid React Class!`
                 ]);
             }
 
@@ -151,12 +150,12 @@ if (Command.args.length !== 1) {
                 let extensions = Command.opts().extensions.map(ext => {
                     return `\`*.${ext}\``;
                 });
-                console.log(`${Colors.bold.yellow('Warning:')} ${Colors.yellow(`Could not find any files matching the file type: ${extensions.join(' OR ')}`)}\n`);
+                console.log('Warning:', `Could not find any files matching the file type: ${extensions.join(' OR ')}\n`);
             } else {
                 console.log(`${table.toString()}\n\n`);
             }
 
-            fs.writeFile(Command.opts().output, template(templateData), (_err) => {
+            fs.writeFile(Command.opts().output, template(templateData).trim(), (_err) => {
               if (_err) {
                 console.log('Error Writing File', Command.opts().output);
               }
